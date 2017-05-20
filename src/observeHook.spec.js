@@ -7,9 +7,7 @@ import { ObserveHook } from './observeHook';
 describe('ObserveHook', () => {
   it('should create the hook fn', () => {
     class MyClass {
-      destroy: Function;
-
-      @ObserveHook('destroy') destroyed: Observable<any>;
+      @ObserveHook('destroy') destroyed;
     }  
 
     const myClass = new MyClass();
@@ -19,9 +17,7 @@ describe('ObserveHook', () => {
 
   it('should create an observable', () => {
     class MyClass {
-      destroy: Function;
-
-      @ObserveHook('destroy') destroyed: Observable<any>;
+      @ObserveHook('destroy') destroyed;
     }  
 
     const myClass = new MyClass();
@@ -33,9 +29,7 @@ describe('ObserveHook', () => {
     const _spy = spy();
 
     class MyClass {
-      destroy: Function;
-
-      @ObserveHook('destroy') destroyed: Observable<any>;
+      @ObserveHook('destroy') destroyed;
     }  
 
     const myClass = new MyClass();
@@ -50,9 +44,9 @@ describe('ObserveHook', () => {
     const _spy = spy();
 
     class MyClass {
-      destroy: Function;
+      destroy;
 
-      @ObserveHook('destroy') destroyed: Observable<any>;
+      @ObserveHook('destroy') destroyed;
     }  
 
     const myClass = new MyClass();
@@ -68,10 +62,7 @@ describe('ObserveHook', () => {
     const _complete = spy();
 
     class MyClass {
-      destroy: Function;
-      complete: Function;
-
-      @ObserveHook('destroy', { completeOn: 'complete' }) destroyed: Observable<any>;
+      @ObserveHook('destroy', { completeOn: 'complete' }) destroyed;
     }  
 
     const myClass = new MyClass();

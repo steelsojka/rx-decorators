@@ -15,12 +15,12 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceRoot}/.babelTest"
+        "${workspaceRoot}/.test/babel/src"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "preLaunchTask": "build:test:babel",
       "outFiles": [
-        "${workspaceRoot}/.babelTest/**/*.js"
+        "${workspaceRoot}/.test/babel/src/**/*.js"
       ]
     },
     {
@@ -39,7 +39,7 @@
       "internalConsoleOptions": "openOnSessionStart",
       "preLaunchTask": "build:test",
       "outFiles": [
-        "${workspaceRoot}/.test/**/*.js"
+        "${workspaceRoot}/.test/ts/**/*.js"
       ]
     },
     {

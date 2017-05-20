@@ -9,10 +9,8 @@ describe('CompleteOn', () => {
     const _spy = spy();
 
     class MyClass {
-      destroy: Function;
-
       @CompleteOn('destroy') 
-      destroyed = new Subject<void>();
+      destroyed = new Subject();
     }  
 
     const myClass = new MyClass();
@@ -31,9 +29,9 @@ describe('CompleteOn', () => {
 
     class MyClass {
       @CompleteOn('destroy') 
-      destroyed = new Subject<void>();
+      destroyed = new Subject();
 
-      destroy(): any {
+      destroy() {
         return 'test';
       }
     }  

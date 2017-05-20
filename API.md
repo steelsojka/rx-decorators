@@ -46,3 +46,30 @@ myClass.$onDestroy();
 
 // DESTROYED!!!!
 ```
+
+<a name="ObserverHandler"></a>
+
+## ObserverHandler(observer) ⇒ <code>PropertyDecorator</code>
+Creates a method that emits on the given observable name. The first argument is emitted.
+
+**Kind**: global function  
+**Export**:   
+}  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| observer | <code>string</code> | The name of the observer.
+
+**Example**  
+```js
+class MyClass {
+  @ObserverHandler('subject') emit: (value: string) => void;
+
+  subject = new Subject();
+}
+
+const myClass = new MyClass();
+
+myClass.subject.subscribe(v => console.log(v)); // => 'test'
+myClass.emit('test');
+```
