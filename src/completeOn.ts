@@ -3,7 +3,7 @@ import { isFunction, isCompleteable } from './utils';
 /**
  * Completes an observable when the provided method is invoked or when the provided Observable emits a value.
  * @export
- * @param {(string | Observable<any>)} method 
+ * @param {string} method  The name of the hook to complete the subject on.
  * @returns {PropertyDecorator} 
  * @example
  * class MyClass {

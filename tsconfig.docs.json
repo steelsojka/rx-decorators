@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./.tsDocs",
+    "declaration": true,
+    "declarationDir": "./.tsDocs"
+  },
+  "exclude": [
+    "src/**/*.spec.ts"
+  ]
+}

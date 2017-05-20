@@ -10,13 +10,16 @@
     "build": "tsc -p tsconfig.build.json",
     "build:test": "tsc -p tsconfig.test.json",
     "build:test:babel": "tsc -p tsconfig.babel.json && babel --out-dir .babelTest .tsBabel --source-maps --copy-files",
+    "build:docs": "tsc -p tsconfig.docs.json",
     "prebuild:test": "del .test",
     "prebuild:test:babel": "del .tsBabel .babelTest",
     "pretest": "npm run build:test",
     "pretest:babel": "npm run build:test:babel",
     "test:babel": "mocha .babelTest/**/*.spec.js",
     "test:ts": "mocha .test/**/*.spec.js",
-    "test": "npm run test:ts && npm run test:babel"
+    "test": "npm run test:ts && npm run test:babel",
+    "predocs:api": "npm run build:docs",
+    "docs:api": "jsdoc2md .tsDocs/*.js > API.md"
   },
   "keywords": [
     "rxjs",
@@ -34,6 +37,7 @@
     "babel-preset-env": "^1.4.0",
     "chai": "^3.5.0",
     "del-cli": "^1.0.0",
+    "jsdoc-to-markdown": "^3.0.0",
     "mocha": "^3.4.1",
     "sinon": "^2.2.0",
     "typescript": "^2.3.2"
