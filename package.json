@@ -9,8 +9,14 @@
     "prebuld": "npm run clean",
     "build": "tsc -p tsconfig.build.json",
     "build:test": "tsc -p tsconfig.test.json",
+    "build:test:babel": "tsc -p tsconfig.babel.json && babel --out-dir .babelTest .tsBabel --source-maps --copy-files",
+    "prebuild:test": "del .test",
+    "prebuild:test:babel": "del .tsBabel .babelTest",
     "pretest": "npm run build:test",
-    "test": "mocha .test/**/*.spec.js"
+    "pretest:babel": "npm run build:test:babel",
+    "test:babel": "mocha .babelTest/**/*.spec.js",
+    "test:ts": "mocha .test/**/*.spec.js",
+    "test": "npm run test:ts && npm run test:babel"
   },
   "keywords": [
     "rxjs",
@@ -22,6 +28,10 @@
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
     "@types/sinon": "^2.2.2",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
     "chai": "^3.5.0",
     "del-cli": "^1.0.0",
     "mocha": "^3.4.1",

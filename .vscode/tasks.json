@@ -22,6 +22,10 @@
     {
       "taskName": "build:test",
       "args": ["run", "build:test"]
+    },
+    {
+      "taskName": "build:test:babel",
+      "args": ["run", "build:test:babel"]
     }
   ]
 }

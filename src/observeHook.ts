@@ -57,8 +57,8 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
     });
 
     if (completeOn && completeOn !== hook) {
-      const descriptor = Object.getOwnPropertyDescriptor(target, completeOn) || {};
-      const { value } = descriptor;
+      const completeDesc = Object.getOwnPropertyDescriptor(target, completeOn) || {};
+      const { value } = completeDesc;
 
       Object.defineProperty(target, completeOn, {
         ...descriptor,

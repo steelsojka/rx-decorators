@@ -7,6 +7,25 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Mocha Tests (Babel)",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "tdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceRoot}/.babelTest"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "build:test:babel",
+      "outFiles": [
+        "${workspaceRoot}/.babelTest/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
       "args": [

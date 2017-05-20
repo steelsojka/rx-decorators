@@ -45,4 +45,45 @@ describe('ObserveHook', () => {
 
     expect(_spy.called).to.be.true;
   });
+
+  it('should complete when the hook is invoked', () => {
+    const _spy = spy();
+
+    class MyClass {
+      destroy: Function;
+
+      @ObserveHook('destroy') destroyed: Observable<any>;
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed.subscribe({ complete: _spy });
+    myClass.destroy();
+
+    expect(_spy.called).to.be.true;
+  });
+
+  it('should complete when the complete hook is invoked', () => {
+    const _spy = spy();
+    const _complete = spy();
+
+    class MyClass {
+      destroy: Function;
+      complete: Function;
+
+      @ObserveHook('destroy', { completeOn: 'complete' }) destroyed: Observable<any>;
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed.subscribe({ next: _spy, complete: _complete });
+    myClass.destroy();
+
+    expect(_spy.called).to.be.true;
+    expect(_complete.called).to.be.false;
+
+    myClass.complete();
+
+    expect(_complete.called).to.be.true;
+  });
 });

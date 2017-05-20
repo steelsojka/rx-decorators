@@ -1,5 +1,7 @@
 node_modules
 .test
+.tsBabel
+.babelTest
 /*.js
 /*.js.map
 /*.d.ts
