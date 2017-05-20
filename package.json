@@ -1,0 +1,34 @@
+{
+  "name": "rx-decorators",
+  "version": "1.0.0",
+  "description": "Decorators for RxJS",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "clean": "del './*.js' './*.js.map' './*.d.ts'",
+    "prebuld": "npm run clean",
+    "build": "tsc -p tsconfig.build.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "pretest": "npm run build:test",
+    "test": "mocha .test/**/*.spec.js"
+  },
+  "keywords": [
+    "rxjs",
+    "decorators"
+  ],
+  "author": "Steven Sojka",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/sinon": "^2.2.2",
+    "chai": "^3.5.0",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.1",
+    "sinon": "^2.2.0",
+    "typescript": "^2.3.2"
+  },
+  "peerDependencies": {
+    "rxjs": "^5.0.0"
+  }
+}
