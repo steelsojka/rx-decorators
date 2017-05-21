@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/steelsojka/rx-decorators/compare/v1.1.0...v1.1.1) (2017-05-21)
+
+
+### Bug Fixes
+
+* **ObserverHandler:** support for multiple decorators ([f4f9747](https://github.com/steelsojka/rx-decorators/commit/f4f9747))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/steelsojka/rx-decorators/compare/v1.0.2...v1.1.0) (2017-05-20)
 
