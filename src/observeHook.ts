@@ -1,35 +1,11 @@
 import { Subject } from 'rxjs/Subject';
 
 import { isFunction } from './utils';
+import { ObserverMap } from './ObserverMap';
 
 type ObserverEntry = { [key: string]: Subject<any> };
 
-const observers = new WeakMap<any, ObserverEntry>();
-
-function createObserver(instance: any, name: string): Subject<any> {
-  const observer = new Subject();
-  let entries = observers.get(instance);
-
-  if (!entries) {
-    entries = {};
-  }
-
-  entries[name] = observer;
-
-  observers.set(instance, entries);
-  
-  return observer;
-};
-
-function getObserver(instance: any, name: string): Subject<any> | null {
-  const entries = observers.get(instance);
-
-  if (entries && entries[name]) {
-    return entries[name];
-  }
-
-  return null;
-}
+const observerMap = new ObserverMap();
 
 export function ObserveHook(hook: string, options: { completeOn?: string } = {}): PropertyDecorator {
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
@@ -42,7 +18,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
       ...hookDesc,
       value(...args: any[]): any {
         const returnVal = isFunction(hookFn) ? hookFn.apply(this, args) : undefined;
-        const observer = getObserver(this, name);
+        const [ observer ] = observerMap.get(this, name);
 
         if (observer) {
           observer.next(args[0]);
@@ -64,7 +40,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
         ...descriptor,
         value(...args: any[]): any {
           const returnVal = isFunction(value) ? value.apply(this, args) : undefined;
-          const observer = getObserver(this, name);
+          const [ observer ] = observerMap.get(this, name);
 
           if (observer) {
             observer.complete();
@@ -79,7 +55,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
       return {
         configurable: true,
         get() {
-          const observable = createObserver(this, name).asObservable();
+          const observable = observerMap.create(this, name).asObservable();
 
           Object.defineProperty(this, name, {
             configurable: true,
@@ -96,7 +72,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
     return {
       ...descriptor,
       initializer() {
-        return createObserver(this, name).asObservable();
+        return observerMap.create(this, name).asObservable();
       }
     };
   };

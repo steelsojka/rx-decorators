@@ -1,5 +1,7 @@
 import { isObserver } from './utils';
 
+const methodMap = new WeakMap<any, string[]>();
+
 /**
  * Creates a method that emits on the given observable name. The first argument is emitted.
  * @export
@@ -20,12 +22,20 @@ import { isObserver } from './utils';
 export function ObserverHandler(observer: string): PropertyDecorator {
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
     function push(instance: any, arg: any): void {
-      const _observer = instance[observer];
+      for (const observerKey of methodMap.get(target) || []) {
+        const _observer = instance[observerKey];
 
-      if (isObserver<any>(_observer)) {
-        _observer.next(arg);
+        if (isObserver<any>(_observer)) {
+          _observer.next(arg);
+        }
       }
     }
+
+
+    const methods = methodMap.get(target) || [];
+
+    methods.push(observer);
+    methodMap.set(target, methods);
 
     if (descriptor) {
       return {

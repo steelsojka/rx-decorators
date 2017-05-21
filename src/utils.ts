@@ -26,3 +26,9 @@ export function isObservable<T>(val: any): val is Observable<T> {
 }
 
 export const identity = <T>(t: T): T => t;
+
+export function createUID(): () => number {
+  let nextId = 0;
+
+  return () => nextId++;
+}

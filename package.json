@@ -9,7 +9,7 @@
     "prebuild": "npm run clean",
     "build": "tsc -p tsconfig.build.json",
     "build:test": "tsc -p tsconfig.test.json",
-    "build:test:babel": "tsc -p tsconfig.babel.json && babel -d .test/babel --source-maps 'src/**/*.spec.js'",
+    "build:test:babel": "tsc -p tsconfig.babel.json && babel -d .test/babel --source-maps --copy-files 'src/**/*.spec.js'",
     "build:docs": "tsc -p tsconfig.docs.json",
     "prebuild:test": "del .test",
     "prebuild:test:babel": "del .test/babel",

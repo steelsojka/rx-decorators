@@ -34,7 +34,7 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceRoot}/.test"
+        "${workspaceRoot}/.test/ts/**/*.js"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "preLaunchTask": "build:test",
