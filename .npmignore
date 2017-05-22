@@ -1,3 +1,6 @@
 tsconfig*
 .test
 .vscode
+jsconfig*
+CHANGELOG.md
+.babelrc
