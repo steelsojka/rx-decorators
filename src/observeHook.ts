@@ -1,13 +1,17 @@
 import { Subject } from 'rxjs/Subject';
 
 import { isFunction } from './utils';
-import { ObserverMap } from './ObserverMap';
+import { ObserverMap, ObserverMapOptions } from './ObserverMap';
 
 type ObserverEntry = { [key: string]: Subject<any> };
 
+export interface ObserverHookOptions extends ObserverMapOptions {
+  completeOn?: string;
+}
+
 const observerMap = new ObserverMap();
 
-export function ObserveHook(hook: string, options: { completeOn?: string } = {}): PropertyDecorator {
+export function ObserveHook(hook: string, options: ObserverHookOptions = {}): PropertyDecorator {
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
     const { completeOn } = options;
 
@@ -55,7 +59,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
       return {
         configurable: true,
         get() {
-          const observable = observerMap.create(this, name).asObservable();
+          const observable = observerMap.create(this, name, options).asObservable();
 
           Object.defineProperty(this, name, {
             configurable: true,
@@ -72,7 +76,7 @@ export function ObserveHook(hook: string, options: { completeOn?: string } = {})
     return {
       ...descriptor,
       initializer() {
-        return observerMap.create(this, name).asObservable();
+        return observerMap.create(this, name, options).asObservable();
       }
     };
   };

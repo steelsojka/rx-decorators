@@ -77,4 +77,26 @@ describe('ObserveHook', () => {
 
     expect(_complete.called).to.be.true;
   });
+
+  it('should cache the value', () => {
+    const _spy = spy();
+
+    class MyClass {
+      @ObserveHook('destroy', { cache: true, initValue: 'blorg' }) 
+      destroyed;
+
+      destroy(text) {}
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed.subscribe(_spy);
+
+    expect(_spy.called).to.be.true;
+    expect(_spy.getCall(0).args[0]).to.equal('blorg');
+
+    myClass.destroy('test');
+
+    expect(_spy.getCall(1).args[0]).to.equal('test');
+  });
 });
