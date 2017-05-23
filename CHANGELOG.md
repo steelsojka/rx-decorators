@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/steelsojka/rx-decorators/compare/v1.1.2...v1.2.0) (2017-05-23)
+
+
+### Bug Fixes
+
+* **sourceMaps:** include src folder to not break source maps ([cdf2f20](https://github.com/steelsojka/rx-decorators/commit/cdf2f20))
+
+
+### Features
+
+* **ObserveHook:** optionally cache the hook value ([8dd70e1](https://github.com/steelsojka/rx-decorators/commit/8dd70e1))
+
+
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/steelsojka/rx-decorators/compare/v1.1.1...v1.1.3) (2017-05-22)
 
