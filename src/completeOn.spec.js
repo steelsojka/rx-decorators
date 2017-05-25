@@ -44,4 +44,28 @@ describe('CompleteOn', () => {
     expect(myClass.destroy()).to.equal('test');
     expect(_spy.called).to.be.true;
   });  
+
+  it('should invoke the inherited method', () => {
+    const _spy = spy();
+    const invoked = spy();
+
+    class Test {
+      destroy() {
+        invoked();  
+      }
+    }
+
+    class MyClass extends Test {
+      @CompleteOn('destroy') 
+      destroyed = new Subject();
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed.subscribe({ complete: _spy });
+    myClass.destroy();
+
+    expect(_spy.called).to.be.true;
+    expect(invoked.called).to.be.true;
+  });  
 });

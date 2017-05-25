@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 
-import { isFunction } from './utils';
+import { isFunction, getDescriptor } from './utils';
 import { ObserverMap, ObserverMapOptions } from './ObserverMap';
 
 type ObserverEntry = { [key: string]: Subject<any> };
@@ -15,7 +15,7 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
     const { completeOn } = options;
 
-    const hookDesc = Object.getOwnPropertyDescriptor(target, name) || {};
+    const hookDesc = getDescriptor(target, name) || {};
     const { value:hookFn } = hookDesc;
 
     Object.defineProperty(target, hook, {
@@ -37,7 +37,7 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
     });
 
     if (completeOn && completeOn !== hook) {
-      const completeDesc = Object.getOwnPropertyDescriptor(target, completeOn) || {};
+      const completeDesc = getDescriptor(target, completeOn) || {};
       const { value } = completeDesc;
 
       Object.defineProperty(target, completeOn, {

@@ -32,3 +32,21 @@ export function createUID(): () => number {
 
   return () => nextId++;
 }
+
+export function reducePrototype<T>(obj: any, reducer: (r: T, proto: object) => T, initial: T): T {
+  let next = obj;
+  let result: T = initial;
+
+  while (isObject(next) && next !== Object.prototype) {
+    result = reducer(result, next);
+    next = Object.getPrototypeOf(next);
+  }
+
+  return result;
+}
+
+export function getDescriptor(obj: object, key: string): PropertyDescriptor | null {
+  return reducePrototype(obj, (result: PropertyDescriptor | null, proto: object) => {
+    return result ? result : Object.getOwnPropertyDescriptor(proto, key);
+  }, null)
+}

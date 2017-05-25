@@ -1,4 +1,4 @@
-import { isFunction, isCompleteable } from './utils';
+import { isFunction, isCompleteable, getDescriptor } from './utils';
 
 /**
  * Completes an observable when the provided method is invoked or when the provided Observable emits a value.
@@ -12,7 +12,7 @@ import { isFunction, isCompleteable } from './utils';
  */
 export function CompleteOn(method: string): PropertyDecorator {
   return (target: any, name: string) => {
-    const descriptor = Object.getOwnPropertyDescriptor(target, method) || {};
+    const descriptor = getDescriptor(target, method) || {};
     const { value } = descriptor;
 
     Object.defineProperty(target, method, {
