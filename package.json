@@ -1,6 +1,6 @@
 {
   "name": "rx-decorators",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Decorators for RxJS",
   "main": "index.js",
   "typings": "index.d.ts",

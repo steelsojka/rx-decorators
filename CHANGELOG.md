@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/steelsojka/rx-decorators/compare/v1.2.0...v1.2.1) (2017-05-25)
+
+
+### Bug Fixes
+
+* **decorators:** get inherited property descriptors ([d7a2f4f](https://github.com/steelsojka/rx-decorators/commit/d7a2f4f))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/steelsojka/rx-decorators/compare/v1.1.2...v1.2.0) (2017-05-23)
 
