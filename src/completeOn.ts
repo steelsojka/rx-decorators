@@ -12,7 +12,11 @@ import { isFunction, isCompleteable, getDescriptor } from './utils';
  */
 export function CompleteOn(method: string): PropertyDecorator {
   return (target: any, name: string) => {
-    const descriptor = getDescriptor(target, method) || {};
+    const descriptor = getDescriptor(target, method, {
+      writable: true,
+      configurable: true,
+      enumerable: false
+    }) as PropertyDescriptor;
     const { value } = descriptor;
 
     Object.defineProperty(target, method, {

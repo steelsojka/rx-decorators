@@ -45,8 +45,10 @@ export function reducePrototype<T>(obj: any, reducer: (r: T, proto: object) => T
   return result;
 }
 
-export function getDescriptor(obj: object, key: string): PropertyDescriptor | null {
-  return reducePrototype(obj, (result: PropertyDescriptor | null, proto: object) => {
+export function getDescriptor(obj: object, key: string, defaultValue?: PropertyDescriptor): PropertyDescriptor | null {
+  const result = reducePrototype(obj, (result: PropertyDescriptor | null, proto: object) => {
     return result ? result : Object.getOwnPropertyDescriptor(proto, key);
-  }, null)
+  }, null);
+
+  return !result && isObject(defaultValue) ? defaultValue : result;
 }

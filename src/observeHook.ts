@@ -15,7 +15,12 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
     const { completeOn } = options;
 
-    const hookDesc = getDescriptor(target, name) || {};
+    const hookDesc = getDescriptor(target, name, {
+      writable: true,
+      enumerable: false,
+      configurable: true
+    }) as PropertyDescriptor;
+
     const { value:hookFn } = hookDesc;
 
     Object.defineProperty(target, hook, {
@@ -37,7 +42,12 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
     });
 
     if (completeOn && completeOn !== hook) {
-      const completeDesc = getDescriptor(target, completeOn) || {};
+      const completeDesc = getDescriptor(target, completeOn, {
+        writable: true,
+        enumerable: false,
+        configurable: true
+      }) as PropertyDescriptor;
+
       const { value } = completeDesc;
 
       Object.defineProperty(target, completeOn, {
