@@ -99,4 +99,18 @@ describe('ObserveHook', () => {
 
     expect(_spy.getCall(1).args[0]).to.equal('test');
   });
+
+  it('should be able to be overwritten', () => {
+    class MyClass {
+      @ObserveHook('destroy') 
+      destroyed;
+
+      destroy(text) {}
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed = 'test';
+    expect(myClass.destroyed).to.equal('test');
+  });
 });

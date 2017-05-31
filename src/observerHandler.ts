@@ -38,6 +38,10 @@ export function ObserverHandler(observer: string): PropertyDecorator {
     methodMap.set(target, methods);
 
     if (descriptor) {
+      if (!descriptor.get && !descriptor.set) {
+        descriptor = { ...descriptor, writable: true };
+      }
+
       return {
         ...descriptor,
         initializer() {
@@ -50,6 +54,14 @@ export function ObserverHandler(observer: string): PropertyDecorator {
 
     return {
       configurable: true,
+      set(value: any) {
+        Object.defineProperty(this, name, {
+          value,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+      },
       get() {
         const value = function(this: any, arg: any) {
           return push(this, arg);

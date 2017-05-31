@@ -68,6 +68,15 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
     if (!descriptor) {
       return {
         configurable: true,
+        set(val: any) {
+          // The user can overwrite the property if they want to.
+          Object.defineProperty(this, name, {
+            configurable: true,
+            writable: true,
+            enumerable: true,
+            value: val
+          });
+        },
         get() {
           const observable = observerMap.create(this, name, options).asObservable();
 
@@ -82,6 +91,10 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
         }
       };
     } 
+
+    if (!descriptor.set && !descriptor.get) {
+      descriptor = { ...descriptor, writable: true };
+    }
 
     return {
       ...descriptor,
