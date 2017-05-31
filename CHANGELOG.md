@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.4"></a>
+## [1.2.4](https://github.com/steelsojka/rx-decorators/compare/v1.2.3...v1.2.4) (2017-05-31)
+
+
+### Bug Fixes
+
+* **ObserveHook:** get the right hook descriptor ([8280512](https://github.com/steelsojka/rx-decorators/commit/8280512))
+
+
+
 <a name="1.2.3"></a>
 ## [1.2.3](https://github.com/steelsojka/rx-decorators/compare/v1.2.2...v1.2.3) (2017-05-31)
 
