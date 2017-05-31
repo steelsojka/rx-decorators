@@ -113,4 +113,23 @@ describe('ObserveHook', () => {
     myClass.destroyed = 'test';
     expect(myClass.destroyed).to.equal('test');
   });
+
+  it('should invoke the original method', () => {
+    const _spy = spy();
+
+    class MyClass {
+      @ObserveHook('destroy') 
+      destroyed;
+
+      destroy() {
+        _spy();
+      }
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroy();
+
+    expect(_spy.called).to.be.true;
+  });
 });

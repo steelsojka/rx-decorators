@@ -15,7 +15,7 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
   return (target: any, name: string, descriptor?: PropertyDescriptor) => {
     const { completeOn } = options;
 
-    const hookDesc = getDescriptor(target, name, {
+    const hookDesc = getDescriptor(target, hook, {
       writable: true,
       enumerable: false,
       configurable: true
