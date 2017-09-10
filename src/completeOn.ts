@@ -1,5 +1,7 @@
 import { isFunction, isCompleteable, getDescriptor } from './utils';
 
+const hookMap = new WeakMap<any, { [key: string]: string[] }>();
+
 /**
  * Completes an observable when the provided method is invoked or when the provided Observable emits a value.
  * @export
@@ -19,17 +21,39 @@ export function CompleteOn(method: string): PropertyDecorator {
     }) as PropertyDescriptor;
     const { value } = descriptor;
 
-    Object.defineProperty(target, method, {
-      ...descriptor,
-      value(this: any, ...args: any[]): any {
-        const returnVal = isFunction(value) ? value.apply(this, args) : undefined;
+    if (!hookMap.has(target)) {
+      hookMap.set(target, {});
 
-        if (isCompleteable(this[name])) {
-          this[name].complete();
+      Object.defineProperty(target, method, {
+        configurable: true,
+        writable: true,
+        enumerable: false,
+        ...descriptor,
+        value(this: any, ...args: any[]): any {
+          const returnVal = isFunction(value) ? value.apply(this, args) : undefined;
+          const hooks = hookMap.get(target);
+
+          if (hooks && hooks[method]) {
+            for (const subjectName of hooks[method]) {
+              if (isCompleteable(this[subjectName])) {
+                this[subjectName].complete();
+              }
+            }
+          }
+
+          return returnVal;
         }
+      });
+    }
 
-        return returnVal;
-      }
-    });
+    const hooks = hookMap.get(target) as { [key: string]: string[] };
+
+    if (!Array.isArray(hooks[method])) {
+      hooks[method] = [];
+    }
+
+    if (hooks[method].indexOf(name) === -1) {
+      hooks[method].push(name);
+    }
   }
 }

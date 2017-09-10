@@ -68,4 +68,31 @@ describe('CompleteOn', () => {
     expect(_spy.called).to.be.true;
     expect(invoked.called).to.be.true;
   });  
+
+  it('should work with multiple completes', () => {
+    const _spy = spy();
+    const _spy2 = spy();
+
+    class MyClass {
+      @CompleteOn('destroy') 
+      destroyed = new Subject();
+
+      @CompleteOn('destroy') 
+      destroyed2 = new Subject();
+
+      destroy() {
+        return 'test';
+      }
+    }  
+
+    const myClass = new MyClass();
+
+    myClass.destroyed.subscribe({ complete: _spy });
+    myClass.destroyed2.subscribe({ complete: _spy2 });
+
+    expect(myClass.destroy).to.be.a('function');
+    expect(myClass.destroy()).to.equal('test');
+    expect(_spy.called).to.be.true;
+    expect(_spy2.called).to.be.true;
+  });
 });

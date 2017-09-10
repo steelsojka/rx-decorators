@@ -1,7 +1,7 @@
 rx-decorators
 =============
 
-A set of decorators for Observables.
+A set of decorators for Observables and Subjects.
 
 Install
 -------

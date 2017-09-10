@@ -54,6 +54,7 @@ export function ObserverHandler(observer: string): PropertyDecorator {
 
     return {
       configurable: true,
+      enumerable: false,
       set(value: any) {
         Object.defineProperty(this, name, {
           value,

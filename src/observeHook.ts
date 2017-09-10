@@ -24,6 +24,9 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
     const { value:hookFn } = hookDesc;
 
     Object.defineProperty(target, hook, {
+      configurable: true,
+      writable: true,
+      enumerable: false,
       ...hookDesc,
       value(...args: any[]): any {
         const returnVal = isFunction(hookFn) ? hookFn.apply(this, args) : undefined;
@@ -51,7 +54,7 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
       const { value } = completeDesc;
 
       Object.defineProperty(target, completeOn, {
-        ...descriptor,
+        ...completeDesc,
         value(...args: any[]): any {
           const returnVal = isFunction(value) ? value.apply(this, args) : undefined;
           const [ observer ] = observerMap.get(this, name);

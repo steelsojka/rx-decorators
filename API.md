@@ -5,7 +5,6 @@ Completes an observable when the provided method is invoked or when the provided
 
 **Kind**: global function  
 **Export**:   
-}  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -25,7 +24,6 @@ Observes a hook method a emits the first argument given to it. If the `completeO
 
 **Kind**: global function  
 **Export**:   
-}  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -50,18 +48,17 @@ myClass.$onDestroy();
 <a name="ObserverHandler"></a>
 
 ## ObserverHandler(observer) ⇒ <code>PropertyDecorator</code>
-Creates a method that emits on the given observable name. The first argument is emitted.
+Creates a method that emits on the given observable name. The first argument is emitted. This is primarily useful when needing to create a method that just emits on a specific Subject.
 
 **Kind**: global function  
 **Export**:   
-}  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | observer | <code>string</code> | The name of the observer.
 
 **Example**  
-```js
+```typescript
 class MyClass {
   @ObserverHandler('subject') emit: (value: string) => void;
 
