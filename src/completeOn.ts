@@ -6,14 +6,14 @@ const hookMap = new WeakMap<any, { [key: string]: string[] }>();
  * Completes an observable when the provided method is invoked or when the provided Observable emits a value.
  * @export
  * @param {string} method  The name of the hook to complete the subject on.
- * @returns {PropertyDecorator} 
+ * @returns {PropertyDecorator}
  * @example
  * class MyClass {
  *   @CompleteOn('$onDestroy') clicks = new Subject();
  * }
  */
 export function CompleteOn(method: string): PropertyDecorator {
-  return (target: any, name: string) => {
+  return (target: any, name: string | symbol) => {
     const descriptor = getDescriptor(target, method, {
       writable: true,
       configurable: true,
@@ -52,8 +52,8 @@ export function CompleteOn(method: string): PropertyDecorator {
       hooks[method] = [];
     }
 
-    if (hooks[method].indexOf(name) === -1) {
-      hooks[method].push(name);
+    if (hooks[method].indexOf(name as string) === -1) {
+      hooks[method].push(name as string);
     }
   }
 }

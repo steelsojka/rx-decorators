@@ -6,21 +6,21 @@ const methodMap = new WeakMap<any, { [key: string]: string[] }>();
  * Creates a method that emits on the given observable name. The first argument is emitted.
  * @export
  * @param {string} observer The name of the observer.
- * @returns {PropertyDecorator} 
+ * @returns {PropertyDecorator}
  * @example
  * class MyClass {
  *   @ObserverHandler('subject') emit: (value: string) => void;
- * 
+ *
  *   subject = new Subject();
  * }
- * 
+ *
  * const myClass = new MyClass();
- * 
+ *
  * myClass.subject.subscribe(v => console.log(v)); // => 'test'
  * myClass.emit('test');
  */
 export function ObserverHandler(observer: string): PropertyDecorator {
-  return (target: any, name: string, descriptor?: PropertyDescriptor) => {
+  return (target: any, name: string | symbol, descriptor?: PropertyDescriptor) => {
     function push(instance: any, arg: any): void {
       const keyMap = methodMap.get(target);
 
@@ -56,8 +56,8 @@ export function ObserverHandler(observer: string): PropertyDecorator {
             return push(this, arg);
           };
         }
-      } 
-    } 
+      }
+    }
 
     return {
       configurable: true,

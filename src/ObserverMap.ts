@@ -13,7 +13,7 @@ export interface ObserverMapOptions {
 export class ObserverMap {
   private observers = new WeakMap<any, ObserverEntry>();
 
-  create(instance: any, name: string, options: ObserverMapOptions = {}): Subject<any> {
+  create(instance: any, name: string | symbol, options: ObserverMapOptions = {}): Subject<any> {
     const { cache = false, initValue = undefined } = options;
     const observer = cache ? new BehaviorSubject(initValue) : new Subject();
     let entries = this.observers.get(instance);
@@ -29,11 +29,11 @@ export class ObserverMap {
     entries[name].push(observer);
 
     this.observers.set(instance, entries);
-    
+
     return observer;
   }
 
-  get(instance: any, name: string): Subject<any>[] {
+  get(instance: any, name: string | symbol): Subject<any>[] {
     const entries = this.observers.get(instance);
 
     if (entries && entries[name]) {

@@ -12,7 +12,7 @@ export interface ObserverHookOptions extends ObserverMapOptions {
 const observerMap = new ObserverMap();
 
 export function ObserveHook(hook: string, options: ObserverHookOptions = {}): PropertyDecorator {
-  return (target: any, name: string, descriptor?: PropertyDescriptor) => {
+  return (target: any, name: string | symbol, descriptor?: PropertyDescriptor) => {
     const { completeOn } = options;
 
     const hookDesc = getDescriptor(target, hook, {
@@ -93,7 +93,7 @@ export function ObserveHook(hook: string, options: ObserverHookOptions = {}): Pr
           return observable;
         }
       };
-    } 
+    }
 
     if (!descriptor.set && !descriptor.get) {
       descriptor = { ...descriptor, writable: true };
