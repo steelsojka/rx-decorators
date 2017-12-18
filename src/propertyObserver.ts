@@ -7,12 +7,43 @@ import { getDescriptor, isFunction } from './utils';
 const observerMap = new ObserverMap();
 const metadata = new Map<any, { [key: string]: PropertyObserverOptions }>();
 
+/**
+ * Configuration for an observable property.
+ * @export
+ * @interface PropertyObserverOptions
+ */
 export interface PropertyObserverOptions {
+  /**
+   * The property to observe.
+   * @type {string}
+   */
   prop: string;
+  /**
+   * A string of the method name to complete the observable when invoked.
+   * @type {string}
+   */
   completeOn?: string;
+  /**
+   * The initial value of the observer property. Note, every
+   * instance will use the same value reference. Use `valueFactory`
+   * for complex objects.
+   * @type {*}
+   */
   value?: any;
+  /**
+   * A factory that generates the value for every instance property.
+   * @type {*}
+   */
+  valueFactory?: any;
 }
 
+/**
+ * Gets the observer for an instance.
+ * @param {*} context
+ * @param {*} target
+ * @param {string} key
+ * @returns {Subject<any>}
+ */
 function getObserver(context: any, target: any, key: string): Subject<any> {
   const meta = metadata.get(target) || {};
 
@@ -21,7 +52,11 @@ function getObserver(context: any, target: any, key: string): Subject<any> {
   if (observer) {
     return observer;
   } else if (meta[key]) {
-    return observerMap.create(context, key, { cache: true, initValue: meta[key].value });
+    const initValue = isFunction(meta[key].valueFactory)
+      ? meta[key].valueFactory()
+      : meta[key].value;
+
+    return observerMap.create(context, key, { cache: true, initValue });
   }
 
   throw new Error(`No observer found for key ${key}`);
@@ -67,6 +102,28 @@ export function ObservedProperty(name?: string): PropertyDecorator {
   }
 }
 
+/**
+ * Creates an Observable that mirrors another properties values. This is used in conjunction with
+ * `ObservedProperty`.
+ * @export
+ * @param {PropertyObserverOptions} options
+ * @returns {PropertyDecorator}
+ * @example
+ * class Test {
+ *   @ObservedProperty()
+ *   isValid: boolean;
+ *
+ *   @PropertyObserver({ prop: 'isValid', value: false })
+ *   isValid$: Observable<boolean>;
+ * }
+ *
+ * const test = new Test();
+ *
+ * test.isValid$.subscribe(v => console.log(v)); // false, true
+ * test.isValid = true;
+ *
+ * console.log(test.isValid); // true
+ */
 export function PropertyObserver(options: PropertyObserverOptions): PropertyDecorator {
   const { completeOn, value:initValue, prop } = options;
 

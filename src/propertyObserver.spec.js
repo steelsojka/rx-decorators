@@ -62,4 +62,48 @@ describe('PropertyObserver', () => {
       expect(_spy.callCount).to.equal(1);
     });
   });
+
+  describe('when using multiple decorators', () => {
+    class Test {
+      @ObservedProperty('blorg')
+      prop1;
+
+      @PropertyObserver({
+        prop: 'blorg',
+        valueFactory: () => ({})
+      })
+      prop1$;
+
+      @ObservedProperty()
+      prop2;
+
+      @PropertyObserver({ prop: 'prop2', value: 'test' })
+      prop2$;
+    }
+
+    it('should emit correctly', () => {
+      const spy1 = spy();
+      const spy2 = spy();
+
+      const test = new Test();
+
+      expect(test.prop1).to.eql({});
+      expect(test.prop2).to.eql('test');
+
+      test.prop1$.subscribe(spy1);
+      test.prop2$.subscribe(spy2);
+
+      test.prop1 = [];
+      test.prop2 = 'bam';
+
+      expect(test.prop1).to.eql([]);
+      expect(test.prop2).to.eql('bam');
+      expect(spy1.callCount).to.equal(2);
+      expect(spy2.callCount).to.equal(2);
+      expect(spy1.getCall(0).args[0]).to.eql({});
+      expect(spy1.getCall(1).args[0]).to.eql([]);
+      expect(spy2.getCall(0).args[0]).to.eql('test');
+      expect(spy2.getCall(1).args[0]).to.eql('bam');
+    });
+  });
 });
